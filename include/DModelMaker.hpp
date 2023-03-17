@@ -393,14 +393,14 @@ private:
             if(Info.ifGeom) {
                 __Tab __BodyTab(Info.rank) __LineIn4("geom name = \"%s\" type = \"box\" size = \"%lf %lf %lf\" rgba = \"0.14 0.16 0.16 1\" material = \"robots\"", Info.bodyName, Info.b2j[0], Info.b2j[1], Info.b2j[2]) // write geom
             }
-            __Tab __BodyTab(Info.rank) __LineIn4("site name = \"%s\" pos = \"%lf %lf %lf\"", Info.jointName[0], Info.i2b[0], Info.i2b[1], Info.i2b[2])
+            __Tab __BodyTab(Info.rank) __LineIn4("site name = \"%s\" pos = \"%lf %lf %lf\"", Info.jointName[0], -Info.i2b[0], -Info.i2b[1], Info.len)
         }
         else { // if the body contains ordinary joints
             for(int i = 0; i < Info.jointType; i++) { // write joints
                 __Tab __BodyTab(Info.rank) __LineIn7("joint name = \"%s\" type=\"hinge\" pos = \"%lf %lf %lf\" axis = \"%lf %lf %lf\" range = \"-90 90\"", Info.jointName[i], Info.b2j[0], Info.b2j[1], Info.b2j[2], Info.axis[i][0], Info.axis[i][1], Info.axis[i][2])
             }
             if(Info.ifGeom) {
-                __Tab __BodyTab(Info.rank) __LineIn3("geom name = \"%s\" type = \"capsule\" fromto = \"0 0 %lf 0 0 %lf\" size = \"0.04\" rgba = \"0.14 0.16 0.16 1\" material = \"robots\"", Info.geomName, Info.b2j[3], Info.b2j[3] - Info.len) // write geom
+                __Tab __BodyTab(Info.rank) __LineIn3("geom name = \"%s\" type = \"capsule\" fromto = \"0 0 %lf 0 0 %lf\" size = \"0.04\" rgba = \"0.14 0.16 0.16 1\" material = \"robots\"", Info.geomName, Info.b2j[2], Info.b2j[2] - Info.len) // write geom
             }
         }
         if(Info.hasIMU) { // if has IMU on this body
@@ -445,7 +445,7 @@ private:
     }
 
     void fnvWriteContact(int nExContactNum) {
-        __Tab __Tab __LineIn2("exclude body1 = \"%s\" body2 = \"%s\"", this->m_cptExContactList[nExContactNum][0], this->m_cptExContactList[nExContactNum][0])
+        __Tab __Tab __LineIn2("exclude body1 = \"%s\" body2 = \"%s\"", this->m_cptExContactList[nExContactNum][0], this->m_cptExContactList[nExContactNum][1])
     }
 
     void fnvWriteSettings() {

@@ -37,66 +37,66 @@
 		<light directional = "true" diffuse = ".5 .5 .5" specular = "0.3 0.3 0.3" pos = "0 0 5" dir = "-0.25 0 -1" castshadow = "false"/>
 		<light mode = "targetbodycom" target = "midbody" directional = "true" diffuse = ".7 .7 .7" specular = "0.3 0.3 0.3" pos = "0 0 4.0" dir = "0 0 -1" castshadow = "false"/>
 
-		<body name = "midbody" pos = "0.000000 0.000000 0.840000">
+		<body name = "midbody" pos = "0.000000 0.000000 0.940000">
 			<freejoint name = "root"/>
-			<inertial pos = "0 0 0" mass = "15.733000" diaginertia = "0.176000 0.114900 0.109900"/>
+			<inertial pos = "0 0 0" mass = "0.000100" diaginertia = "0.000100 0.000100 0.000100"/>
 			<geom name = "midbody_geom" type = "capsule" fromto = "0 -0.080000 0 0 0.080000 0" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
-			<body name = "uppbody" pos = "0.008000 0.000000 0.317000">
-				<inertial pos = "0 0 0" mass = "15.401000" diaginertia = "0.481300 0.158400 0.431500"/>
-				<joint name = "waist_yaw" type="hinge" pos = "0.000000 0.000000 -0.167000" axis = "0.000000 0.000000 1.000000" range = "-90 90"/>
-				<geom name = "uppbody_geom" type = "capsule" fromto = "0 0 0.008000 0 0 0.308000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
+			<body name = "uppbody" pos = "-0.042000 0.000000 0.296000">
+				<inertial pos = "0 0 0" mass = "19.500000" diaginertia = "0.610000 0.380000 0.300000"/>
+				<joint name = "waist_yaw" type="hinge" pos = "0.042000 0.000000 -0.296000" axis = "0.000000 0.000000 1.000000" range = "-90 90"/>
+				<geom name = "uppbody_geom" type = "capsule" fromto = "0 0 -0.296000 0 0 0.204000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
 				<site name = "site_imu" pos = "0.042000 0.000000 -0.296000"/>
-				<body name = "larm" pos = "0.000000 0.268000 -0.274000">
-					<inertial pos = "0 0 0" mass = "1.520000" diaginertia = "0.026400 0.027700 0.002100"/>
-					<joint name = "left_arm" type="hinge" pos = "0.000000 0.000000 0.291000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
-					<geom name = "larm_geom" type = "capsule" fromto = "0 0 0.000000 0 0 -0.400000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
+				<body name = "larm" pos = "0.019000 0.272000 -0.114000">
+					<inertial pos = "0 0 0" mass = "1.500000" diaginertia = "0.043000 0.044000 0.002300"/>
+					<joint name = "left_arm" type="hinge" pos = "-0.019000 0.000000 0.229000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
+					<geom name = "larm_geom" type = "capsule" fromto = "0 0 0.229000 0 0 -0.071000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
 				</body>
-				<body name = "rarm" pos = "0.000000 -0.268000 -0.274000">
-					<inertial pos = "0 0 0" mass = "1.520000" diaginertia = "0.026400 0.027700 0.002100"/>
-					<joint name = "right_arm" type="hinge" pos = "0.000000 0.000000 0.291000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
-					<geom name = "rarm_geom" type = "capsule" fromto = "0 0 0.000000 0 0 -0.400000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
+				<body name = "rarm" pos = "0.019000 -0.272000 -0.114000">
+					<inertial pos = "0 0 0" mass = "1.500000" diaginertia = "0.043000 0.044000 0.002300"/>
+					<joint name = "right_arm" type="hinge" pos = "-0.019000 0.000000 0.229000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
+					<geom name = "rarm_geom" type = "capsule" fromto = "0 0 0.229000 0 0 -0.071000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
 				</body>
 			</body>
-			<body name = "lthigh" pos = "0.000000 0.080000 -0.282000">
-				<inertial pos = "0 0 0" mass = "6.042000" diaginertia = "0.053000 0.055000 0.014000"/>
-				<joint name = "left_leg_1" type="hinge" pos = "0.000000 0.000000 0.196000" axis = "0.000000 0.000000 1.000000" range = "-90 90"/>
-				<joint name = "left_leg_2" type="hinge" pos = "0.000000 0.000000 0.196000" axis = "1.000000 0.000000 0.000000" range = "-90 90"/>
-				<joint name = "left_leg_3" type="hinge" pos = "0.000000 0.000000 0.196000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
-				<geom name = "lthigh_geom" type = "capsule" fromto = "0 0 0.000000 0 0 -0.200000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
-				<body name = "lshank" pos = "0.000000 0.000000 -0.256000">
-					<inertial pos = "0 0 0" mass = "0.719000" diaginertia = "0.012100 0.012400 0.000500"/>
-					<joint name = "left_leg_4" type="hinge" pos = "0.000000 0.000000 0.132000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
-					<geom name = "lshank_geom" type = "capsule" fromto = "0 0 0.000000 0 0 -0.200000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
-					<body name = "lankle" pos = "0.000000 0.000000 -0.238000">
-						<inertial pos = "0 0 0" mass = "1.152000" diaginertia = "0.001700 0.004700 0.005200"/>
-						<joint name = "left_leg_5" type="hinge" pos = "0.000000 0.000000 0.050000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
-						<joint name = "left_leg_6" type="hinge" pos = "0.000000 0.000000 0.050000" axis = "1.000000 0.000000 0.000000" range = "-90 90"/>
+			<body name = "lthigh" pos = "0.014000 0.095000 -0.101000">
+				<inertial pos = "0 0 0" mass = "5.800000" diaginertia = "0.067000 0.063000 0.014000"/>
+				<joint name = "left_leg_1" type="hinge" pos = "-0.014000 -0.015000 0.101000" axis = "0.000000 0.000000 1.000000" range = "-90 90"/>
+				<joint name = "left_leg_2" type="hinge" pos = "-0.014000 -0.015000 0.101000" axis = "1.000000 0.000000 0.000000" range = "-90 90"/>
+				<joint name = "left_leg_3" type="hinge" pos = "-0.014000 -0.015000 0.101000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
+				<geom name = "lthigh_geom" type = "capsule" fromto = "0 0 0.101000 0 0 -0.219000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
+				<body name = "lshank" pos = "-0.014000 -0.015000 -0.310000">
+					<inertial pos = "0 0 0" mass = "1.800000" diaginertia = "0.030000 0.030000 0.000200"/>
+					<joint name = "left_leg_4" type="hinge" pos = "0.000000 0.000000 0.091000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
+					<geom name = "lshank_geom" type = "capsule" fromto = "0 0 0.091000 0 0 -0.229000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
+					<body name = "lankle" pos = "0.000000 0.000000 -0.304000">
+						<inertial pos = "0 0 0" mass = "1.150000" diaginertia = "0.001700 0.004700 0.005200"/>
+						<joint name = "left_l3eg_5" type="hinge" pos = "0.000000 0.000000 0.075000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
+						<joint name = "left_leg_6" type="hinge" pos = "0.000000 0.000000 0.075000" axis = "1.000000 0.000000 0.000000" range = "-90 90"/>
 						<body name = "lfoot" pos = "0.035000 0.020000 -0.015000">
 							<inertial pos = "0 0 0" mass = "0.000100" diaginertia = "0.000100 0.000100 0.000100"/>
 							<geom name = "lfoot" type = "box" size = "0.135000 0.075000 0.010000" rgba = "0.14 0.16 0.16 1" material = "robots"/>
-							<site name = "site_lforcesensor" pos = "0.035000 0.020000 -0.015000"/>
+							<site name = "site_lforcesensor" pos = "-0.035000 -0.020000 0.080000"/>
 						</body>
 					</body>
 				</body>
 			</body>
-			<body name = "rthigh" pos = "0.000000 -0.080000 -0.282000">
-				<inertial pos = "0 0 0" mass = "6.042000" diaginertia = "0.053000 0.055000 0.014000"/>
-				<joint name = "right_leg_1" type="hinge" pos = "0.000000 0.000000 0.196000" axis = "0.000000 0.000000 1.000000" range = "-90 90"/>
-				<joint name = "right_leg_2" type="hinge" pos = "0.000000 0.000000 0.196000" axis = "1.000000 0.000000 0.000000" range = "-90 90"/>
-				<joint name = "right_leg_3" type="hinge" pos = "0.000000 0.000000 0.196000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
-				<geom name = "rthigh_geom" type = "capsule" fromto = "0 0 0.000000 0 0 -0.200000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
-				<body name = "rshank" pos = "0.000000 0.000000 -0.256000">
-					<inertial pos = "0 0 0" mass = "0.719000" diaginertia = "0.012100 0.012400 0.000500"/>
-					<joint name = "right_leg_4" type="hinge" pos = "0.000000 0.000000 0.132000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
-					<geom name = "rshank_geom" type = "capsule" fromto = "0 0 0.000000 0 0 -0.200000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
-					<body name = "rankle" pos = "0.000000 0.000000 -0.238000">
-						<inertial pos = "0 0 0" mass = "1.152000" diaginertia = "0.001700 0.004700 0.005200"/>
-						<joint name = "right_leg_5" type="hinge" pos = "0.000000 0.000000 0.050000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
-						<joint name = "right_leg_6" type="hinge" pos = "0.000000 0.000000 0.050000" axis = "1.000000 0.000000 0.000000" range = "-90 90"/>
+			<body name = "rthigh" pos = "0.014000 -0.095000 -0.101000">
+				<inertial pos = "0 0 0" mass = "5.800000" diaginertia = "0.067000 0.063000 0.014000"/>
+				<joint name = "right_leg_1" type="hinge" pos = "-0.014000 0.015000 0.101000" axis = "0.000000 0.000000 1.000000" range = "-90 90"/>
+				<joint name = "right_leg_2" type="hinge" pos = "-0.014000 0.015000 0.101000" axis = "1.000000 0.000000 0.000000" range = "-90 90"/>
+				<joint name = "right_leg_3" type="hinge" pos = "-0.014000 0.015000 0.101000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
+				<geom name = "rthigh_geom" type = "capsule" fromto = "0 0 0.101000 0 0 -0.219000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
+				<body name = "rshank" pos = "-0.014000 0.015000 -0.310000">
+					<inertial pos = "0 0 0" mass = "1.800000" diaginertia = "0.030000 0.030000 0.000200"/>
+					<joint name = "right_leg_4" type="hinge" pos = "0.000000 0.000000 0.091000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
+					<geom name = "rshank_geom" type = "capsule" fromto = "0 0 0.091000 0 0 -0.229000" size = "0.04" rgba = "0.14 0.16 0.16 1" material = "robots"/>
+					<body name = "rankle" pos = "0.000000 0.000000 -0.304000">
+						<inertial pos = "0 0 0" mass = "1.150000" diaginertia = "0.001700 0.004700 0.005200"/>
+						<joint name = "right_leg_5" type="hinge" pos = "0.000000 0.000000 0.075000" axis = "0.000000 1.000000 0.000000" range = "-90 90"/>
+						<joint name = "right_leg_6" type="hinge" pos = "0.000000 0.000000 0.075000" axis = "1.000000 0.000000 0.000000" range = "-90 90"/>
 						<body name = "rfoot" pos = "0.035000 -0.020000 -0.015000">
 							<inertial pos = "0 0 0" mass = "0.000100" diaginertia = "0.000100 0.000100 0.000100"/>
 							<geom name = "rfoot" type = "box" size = "0.135000 0.075000 0.010000" rgba = "0.14 0.16 0.16 1" material = "robots"/>
-							<site name = "site_rforcesensor" pos = "0.035000 -0.020000 -0.015000"/>
+							<site name = "site_rforcesensor" pos = "-0.035000 0.020000 0.080000"/>
 						</body>
 					</body>
 				</body>
@@ -119,7 +119,7 @@
 		<position name = "left_leg_2" gear = "100.00000" joint = "left_leg_2"/>
 		<position name = "left_leg_3" gear = "100.00000" joint = "left_leg_3"/>
 		<position name = "left_leg_4" gear = "100.00000" joint = "left_leg_4"/>
-		<position name = "left_leg_5" gear = "100.00000" joint = "left_leg_5"/>
+		<position name = "left_l3eg_5" gear = "100.00000" joint = "left_l3eg_5"/>
 		<position name = "left_leg_6" gear = "100.00000" joint = "left_leg_6"/>
 		<position name = "right_leg_1" gear = "100.00000" joint = "right_leg_1"/>
 		<position name = "right_leg_2" gear = "100.00000" joint = "right_leg_2"/>
@@ -130,15 +130,51 @@
 	</actuator>
 
 	<contact>
-		<exclude body1 = "uppbody" body2 = "uppbody"/>
-		<exclude body1 = "midbody" body2 = "midbody"/>
-		<exclude body1 = "lthigh" body2 = "lthigh"/>
-		<exclude body1 = "lshank" body2 = "lshank"/>
-		<exclude body1 = "lankle" body2 = "lankle"/>
-		<exclude body1 = "midbody" body2 = "midbody"/>
-		<exclude body1 = "rthigh" body2 = "rthigh"/>
-		<exclude body1 = "rshank" body2 = "rshank"/>
-		<exclude body1 = "rankle" body2 = "rankle"/>
+		<exclude body1 = "midbody" body2 = "uppbody"/>
+		<exclude body1 = "midbody" body2 = "larm"/>
+		<exclude body1 = "midbody" body2 = "rarm"/>
+		<exclude body1 = "midbody" body2 = "lthigh"/>
+		<exclude body1 = "midbody" body2 = "lshank"/>
+		<exclude body1 = "midbody" body2 = "lankle"/>
+		<exclude body1 = "midbody" body2 = "rthigh"/>
+		<exclude body1 = "midbody" body2 = "rshank"/>
+		<exclude body1 = "midbody" body2 = "rankle"/>
+		<exclude body1 = "uppbody" body2 = "larm"/>
+		<exclude body1 = "uppbody" body2 = "rarm"/>
+		<exclude body1 = "uppbody" body2 = "lthigh"/>
+		<exclude body1 = "uppbody" body2 = "lshank"/>
+		<exclude body1 = "uppbody" body2 = "lankle"/>
+		<exclude body1 = "uppbody" body2 = "rthigh"/>
+		<exclude body1 = "uppbody" body2 = "rshank"/>
+		<exclude body1 = "uppbody" body2 = "rankle"/>
+		<exclude body1 = "larm" body2 = "rarm"/>
+		<exclude body1 = "larm" body2 = "lthigh"/>
+		<exclude body1 = "larm" body2 = "lshank"/>
+		<exclude body1 = "larm" body2 = "lankle"/>
+		<exclude body1 = "larm" body2 = "rthigh"/>
+		<exclude body1 = "larm" body2 = "rshank"/>
+		<exclude body1 = "larm" body2 = "rankle"/>
+		<exclude body1 = "rarm" body2 = "lthigh"/>
+		<exclude body1 = "rarm" body2 = "lshank"/>
+		<exclude body1 = "rarm" body2 = "lankle"/>
+		<exclude body1 = "rarm" body2 = "rthigh"/>
+		<exclude body1 = "rarm" body2 = "rshank"/>
+		<exclude body1 = "rarm" body2 = "rankle"/>
+		<exclude body1 = "lthigh" body2 = "lshank"/>
+		<exclude body1 = "lthigh" body2 = "lankle"/>
+		<exclude body1 = "lthigh" body2 = "rthigh"/>
+		<exclude body1 = "lthigh" body2 = "rshank"/>
+		<exclude body1 = "lthigh" body2 = "rankle"/>
+		<exclude body1 = "lshank" body2 = "lankle"/>
+		<exclude body1 = "lshank" body2 = "rthigh"/>
+		<exclude body1 = "lshank" body2 = "rshank"/>
+		<exclude body1 = "lshank" body2 = "rankle"/>
+		<exclude body1 = "lankle" body2 = "rthigh"/>
+		<exclude body1 = "lankle" body2 = "rshank"/>
+		<exclude body1 = "lankle" body2 = "rankle"/>
+		<exclude body1 = "rthigh" body2 = "rshank"/>
+		<exclude body1 = "rthigh" body2 = "rankle"/>
+		<exclude body1 = "rshank" body2 = "rankle"/>
 	</contact>
 
 </mujoco>
