@@ -311,12 +311,16 @@ public:
 
     void fnvWriteXML() {
         this->m_nBodyNum++; // add the counting number of floating base body
+        this->m_nBodyNum++; // add the counting number of floating base body
         this->fnvWriteAsset();
         this->fnvWriteWorld();
         this->fnvWriteSettings();
     }
 
-
+    void fnvDisp() {
+        _STD cout << "Number of bodys is: " << this->m_nBodyNum << _STD endl;
+        _STD cout << "Number of joints is: " << this->m_nJointNum << _STD endl;
+    }
 
 private:
     int m_nJointNum;
