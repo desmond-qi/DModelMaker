@@ -119,6 +119,16 @@
 			"isCMake" : true,
 			"isExternal" : true,
 			"path" : "D:/PRO/cmake-3.17.3-win64-x64/share/cmake-3.17/Modules/CMakeCommonLanguageInclude.cmake"
+		},
+		{
+			"path" : "config.cmake"
+		},
+		{
+			"path" : "config.cmake.in"
+		},
+		{
+			"isGenerated" : true,
+			"path" : "build/CMakeFiles/DMujoMkConfig.cmake"
 		}
 	],
 	"kind" : "cmakeFiles",

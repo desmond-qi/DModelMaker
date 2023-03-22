@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "Release/ModelMakerTest.exe"
+			"path" : "Release/Test.exe"
 		},
 		{
-			"path" : "Release/ModelMakerTest.pdb"
+			"path" : "Release/Test.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -30,19 +30,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 16,
+				"line" : 14,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 27,
+				"line" : 25,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 20,
+				"line" : 18,
 				"parent" : 0
 			},
 			{
@@ -89,7 +89,7 @@
 			[
 				{
 					"backtrace" : 4,
-					"path" : "D:/L.B/GitHUB/DModelMaker/./include"
+					"path" : "D:/L.B/GitHUB/DModelMaker/include"
 				}
 			],
 			"language" : "CXX",
@@ -105,7 +105,7 @@
 			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "ModelMakerTest::@6890427a1f51a3e7e1df",
+	"id" : "Test::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -125,8 +125,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "ModelMakerTest",
-	"nameOnDisk" : "ModelMakerTest.exe",
+	"name" : "Test",
+	"nameOnDisk" : "Test.exe",
 	"paths" : 
 	{
 		"build" : ".",

@@ -1,33 +1,32 @@
 cmake_minimum_required(VERSION 3.0)
 project(ModelMaker)
 
-set(ROOT_PATH .)
+# find_package()
 
 include_directories(
-    ${ROOT_PATH}/include
+    ${CMAKE_SOURCE_DIR}/include
 )
 
-link_directories(
+link_directories()
 
-)
+aux_source_directory(${CMAKE_SOURCE_DIR} SRC_TEST)
 
-aux_source_directory(${ROOT_PATH} SRC_TEST)
-
-add_executable(ModelMakerTest
+add_executable(Test
     ${SRC_TEST}
 )
 
-target_compile_definitions(ModelMakerTest PUBLIC
+target_compile_definitions(Test PUBLIC
     _CRT_SECURE_NO_WARNINGS
     NDEBUG
     UNICODE
     CONSOLE
 )
 
-target_compile_options(ModelMakerTest PUBLIC
+target_compile_options(Test PUBLIC
     /nologo
 )
 
-target_link_options(ModelMakerTest PUBLIC
+target_link_options(Test PUBLIC)
 
-)
+# if install
+include(config.cmake)

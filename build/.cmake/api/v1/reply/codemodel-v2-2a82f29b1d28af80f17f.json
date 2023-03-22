@@ -6,6 +6,7 @@
 			[
 				{
 					"build" : ".",
+					"hasInstallRule" : true,
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.0"
@@ -42,15 +43,15 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ALL_BUILD-Debug-358b173e10f5132304b1.json",
+					"jsonFile" : "target-ALL_BUILD-Debug-147f28903aa25a9af52d.json",
 					"name" : "ALL_BUILD",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
-					"id" : "ModelMakerTest::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ModelMakerTest-Debug-bb8d00f988e528a1e2c1.json",
-					"name" : "ModelMakerTest",
+					"id" : "Test::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Test-Debug-859b69abf3f298a52ea1.json",
+					"name" : "Test",
 					"projectIndex" : 0
 				},
 				{
@@ -67,6 +68,7 @@
 			[
 				{
 					"build" : ".",
+					"hasInstallRule" : true,
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.0"
@@ -103,15 +105,15 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ALL_BUILD-Release-358b173e10f5132304b1.json",
+					"jsonFile" : "target-ALL_BUILD-Release-147f28903aa25a9af52d.json",
 					"name" : "ALL_BUILD",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
-					"id" : "ModelMakerTest::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ModelMakerTest-Release-ef1c40dcf0fb54b81205.json",
-					"name" : "ModelMakerTest",
+					"id" : "Test::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Test-Release-e5f45808f75e4c8e1f0b.json",
+					"name" : "Test",
 					"projectIndex" : 0
 				},
 				{
@@ -128,6 +130,7 @@
 			[
 				{
 					"build" : ".",
+					"hasInstallRule" : true,
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.0"
@@ -164,15 +167,15 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ALL_BUILD-MinSizeRel-358b173e10f5132304b1.json",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-147f28903aa25a9af52d.json",
 					"name" : "ALL_BUILD",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
-					"id" : "ModelMakerTest::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ModelMakerTest-MinSizeRel-49509f649aa3f6e42db9.json",
-					"name" : "ModelMakerTest",
+					"id" : "Test::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Test-MinSizeRel-dcac1344fddcdd0e5171.json",
+					"name" : "Test",
 					"projectIndex" : 0
 				},
 				{
@@ -189,6 +192,7 @@
 			[
 				{
 					"build" : ".",
+					"hasInstallRule" : true,
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.0"
@@ -225,15 +229,15 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-358b173e10f5132304b1.json",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-147f28903aa25a9af52d.json",
 					"name" : "ALL_BUILD",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
-					"id" : "ModelMakerTest::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ModelMakerTest-RelWithDebInfo-ed6990261d17f814e6c0.json",
-					"name" : "ModelMakerTest",
+					"id" : "Test::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Test-RelWithDebInfo-aa03881dbe0180642c60.json",
+					"name" : "Test",
 					"projectIndex" : 0
 				},
 				{
