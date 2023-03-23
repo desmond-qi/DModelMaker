@@ -8,6 +8,8 @@
 #define __MaxStrLen 60
 #define __MaxBodyNum 50
 #define __MaxJointNum 50
+#define __MaxIMUNum 10
+#define __MaxFSNum 10
 #define __Tab                   fprintf(this->m_file, "\t");
 #define __BodyTab(rank)         { __Tab __Tab for(int i = 0; i < rank; i++) __Tab }
 #define __Etr                   fprintf(this->m_file, "\n");
@@ -68,6 +70,8 @@ public:
         this->fnvWriteDefault();
         this->m_nBodyNum = 0;
         this->m_nJointNum = 0;
+        this->m_nIMUNum = 0;
+        this->m_nFSNum = 0;
         this->m_nExContactNum = 0;
     }
     
@@ -256,6 +260,7 @@ public:
         doubleN<3>  dSize, 
         doubleN<3>  dInb2Body) {
         this->m_nBodyNum++; // add the body number
+        this->m_nFSNum++; // add the force sensor number
         auto & Info = this->m_stBodysInfo[this->m_nBodyNum];
         Info.ifGeom = nIfGeom;
         strcpy(Info.jointName[0], cptForceSensorName); // copy the force sensor name
@@ -289,6 +294,7 @@ public:
         char *      cptIMUName, 
         char *      cptInbName,
         doubleN<3>  dInb2IMU) {
+        this->m_nIMUNum++; // add the IMU number
         for(int i = 0; i < __MaxBodyNum; i++) {
             if(strcmp(cptInbName, this->m_stBodysInfo[i].bodyName) == 0) {
                 this->m_stBodysInfo[i].hasIMU = 1;
@@ -325,6 +331,8 @@ public:
 private:
     int m_nJointNum;
     int m_nBodyNum;
+    int m_nIMUNum;
+    int m_nFSNum;
     char m_cptModelName[__MaxStrLen];
     double m_dTimeStep;
     int m_nGravityFlag;

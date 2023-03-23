@@ -46,14 +46,14 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xdevx" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "D:/_pkg/DPackages/DMujoMk/share/DMujoMkConfig.cmake")
+   "D:/_pkg/DPackages/DMujoMk/share/DMujoMk/DMujoMkConfig.cmake")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "D:/_pkg/DPackages/DMujoMk/share" TYPE FILE FILES "D:/L.B/GitHUB/DModelMaker/build/CMakeFiles/DMujoMkConfig.cmake")
+file(INSTALL DESTINATION "D:/_pkg/DPackages/DMujoMk/share/DMujoMk" TYPE FILE FILES "D:/L.B/GitHUB/DModelMaker/build/CMakeFiles/DMujoMkConfig.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
