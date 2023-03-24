@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string.h>
 #include <array>
+#include <windows.h>
 
 #define __MaxStrLen 60
 #define __MaxBodyNum 50
@@ -62,6 +63,10 @@ struct st_JointBody {
 
 class c_MMaker {
 public:
+    int m_nJointNum;
+    int m_nBodyNum;
+    int m_nIMUNum;
+    int m_nFSNum;
     c_MMaker(const char * cptModelName, double dTimeStep, int nIfGravity) {
         strcpy_s(this->m_cptModelName, cptModelName);
         this->m_dTimeStep = dTimeStep;
@@ -76,7 +81,7 @@ public:
     }
     
     ~c_MMaker() {
-        this->fnvCloseFile();
+        
     }
 
     void fnvAddBase(
@@ -317,10 +322,12 @@ public:
 
     void fnvWriteXML() {
         this->m_nBodyNum++; // add the counting number of floating base body
-        this->m_nBodyNum++; // add the counting number of floating base body
         this->fnvWriteAsset();
         this->fnvWriteWorld();
         this->fnvWriteSettings();
+        Sleep(200);
+        this->fnvCloseFile();
+        _STD cout << "Model file: [ " << this->m_cptModelName << ".xml ] is generated in /Build/Release!" << _STD endl;
     }
 
     void fnvDisp() {
@@ -329,10 +336,6 @@ public:
     }
 
 private:
-    int m_nJointNum;
-    int m_nBodyNum;
-    int m_nIMUNum;
-    int m_nFSNum;
     char m_cptModelName[__MaxStrLen];
     double m_dTimeStep;
     int m_nGravityFlag;
