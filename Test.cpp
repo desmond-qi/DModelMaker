@@ -1,7 +1,7 @@
 #include <DModelMaker.hpp>
 
-// #define BHR7P2
-#define BHRGAO
+#define BHR7P2
+// #define BHRGAO
 
 c_MMaker cMMakerBHR("bhrGao", 0.004, 1);
 
