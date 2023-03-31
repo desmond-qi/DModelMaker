@@ -121,6 +121,10 @@
 			"path" : "D:/PRO/cmake-3.17.3-win64-x64/share/cmake-3.17/Modules/CMakeCommonLanguageInclude.cmake"
 		},
 		{
+			"isExternal" : true,
+			"path" : "D:/_pkg/DPackages/DBase/share/DBase/DBaseConfig.cmake"
+		},
+		{
 			"path" : "config.cmake"
 		},
 		{

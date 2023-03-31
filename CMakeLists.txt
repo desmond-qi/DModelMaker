@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(ModelMaker)
 
-# find_package()
+find_package(DBase)
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/include

@@ -1,16 +1,19 @@
 // DModelMaker.hpp
 // 20230314 dcc <3120195094@bit.edu.cn>
+#include <DBase.hpp>
 #include <stdio.h>
 #include <iostream>
-#include <string.h>
-#include <array>
+#include <string>
 #include <windows.h>
+
+_D_USING_BASE
 
 #define __MaxStrLen 60
 #define __MaxBodyNum 50
 #define __MaxJointNum 50
 #define __MaxIMUNum 10
 #define __MaxFSNum 10
+#define __MaxBlockNum 20
 #define __Tab                   fprintf(this->m_file, "\t");
 #define __BodyTab(rank)         { __Tab __Tab for(int i = 0; i < rank; i++) __Tab }
 #define __Etr                   fprintf(this->m_file, "\n");
@@ -19,6 +22,8 @@
             fprintf(this->m_file, "<"); fprintf(this->m_file, content, input); fprintf(this->m_file, ">"); __Etr
 #define __StartBody(content, input1, input2, input3, input4) \
             fprintf(this->m_file, "<"); fprintf(this->m_file, content, input1, input2, input3, input4); fprintf(this->m_file, ">"); __Etr
+#define __StartBlock(content, input1, input2, input3, input4, input5, input6, input7) \
+            fprintf(this->m_file, "<"); fprintf(this->m_file, content, input1, input2, input3, input4, input5, input6, input7); fprintf(this->m_file, ">"); __Etr
 #define __End(content)          fprintf(this->m_file, "</"); fprintf(this->m_file, content); fprintf(this->m_file, ">"); __Etr
 #define __Line(content)         fprintf(this->m_file, "<"); fprintf(this->m_file, content); fprintf(this->m_file, "/>"); __Etr
 #define __LineIn1(content, input) \
@@ -29,14 +34,18 @@
             fprintf(this->m_file, "<"); fprintf(this->m_file, content, input1, input2, input3); fprintf(this->m_file, "/>"); __Etr
 #define __LineIn4(content, input1, input2, input3, input4) \
             fprintf(this->m_file, "<"); fprintf(this->m_file, content, input1, input2, input3, input4); fprintf(this->m_file, "/>"); __Etr
+#define __LineIn5(content, input1, input2, input3, input4, input5) \
+            fprintf(this->m_file, "<"); fprintf(this->m_file, content, input1, input2, input3, input4, input5); fprintf(this->m_file, "/>"); __Etr
 #define __LineIn7(content, input1, input2, input3, input4, input5, input6, input7) \
             fprintf(this->m_file, "<"); fprintf(this->m_file, content, input1, input2, input3, input4, input5, input6, input7); fprintf(this->m_file, "/>"); __Etr
 
-template<int N>
-using doubleN = std::array<double, N>;
-
 enum en_JointType {
     pin = 1, gim, bal, fs
+};
+
+struct st_Friction {
+    double impratio; // default global friction
+    double friction[3]; // default feet friction
 };
 
 struct st_JointBody {
@@ -61,6 +70,16 @@ struct st_JointBody {
     char IMUName[__MaxStrLen];
 };
 
+struct st_Block {
+    double Mass; // if is zero, making the block static
+    double Iner[3]; // rotational inertia
+    double geom[3]; // block size
+    double pos[3]; // position in the global world
+    double rot[3]; // rotation in the global world
+    char blockName[__MaxStrLen]; // 
+    int blockNo; // the number of the block
+};
+
 class c_MMaker {
 public:
     int m_nJointNum;
@@ -71,24 +90,32 @@ public:
         strcpy_s(this->m_cptModelName, cptModelName);
         this->m_dTimeStep = dTimeStep;
         this->m_nGravityFlag = nIfGravity;
-        this->fnvOpenFile();
-        this->fnvWriteDefault();
         this->m_nBodyNum = 0;
         this->m_nJointNum = 0;
         this->m_nIMUNum = 0;
         this->m_nFSNum = 0;
         this->m_nExContactNum = 0;
+        this->m_nBlockNum = 0;
+        this->m_nPlaneNum = 0;        
+        this->fnvSetFriction(10.0, { 3.8, 0.5, 0.0001 }); // set the default values of the friction setting
+        this->fnvOpenFile();
+        this->fnvWriteDefault();
     }
     
     ~c_MMaker() {
         
     }
 
+    void fnvSetFriction(double dImpratio, double3 d3Friction) {
+        this->m_stFriction.impratio = dImpratio;
+        for(int i = 0; i < 3; i++) this->m_stFriction.friction[i] = d3Friction[i];
+    }
+
     void fnvAddBase(
         char *      cptBodyName, 
-        doubleN<3>  dOriPos,
+        double3     dOriPos,
         double      dMass, 
-        doubleN<3>  dIner, 
+        double3     dIner, 
         double      dLinkLength) {
         auto & Info = this->m_stBodysInfo[this->m_nBodyNum];
         strcpy(Info.jointName[0], "root"); // copy the joint name
@@ -109,13 +136,13 @@ public:
         char *      cptBodyName, 
         char *      cptInbName,
         double      dMass, 
-        doubleN<3>  dIner, 
+        double3     dIner, 
         int         nIfGeom,
         double      dLinkLength,
         char *      cptJointName, 
-        doubleN<3>  dAxis,  
-        doubleN<3>  dBody2Joint,
-        doubleN<3>  dInb2Joint) {
+        double3     dAxis,  
+        double3     dBody2Joint,
+        double3     dInb2Joint) {
         this->m_nBodyNum++; // add the body number
         auto & Info = this->m_stBodysInfo[this->m_nBodyNum];
         Info.ifGeom = nIfGeom;
@@ -152,15 +179,15 @@ public:
         char *      cptBodyName, 
         char *      cptInbName,
         double      dMass, 
-        doubleN<3>  dIner, 
+        double3     dIner, 
         int         nIfGeom,
         double      dLinkLength,
         char *      cptJointName1, 
         char *      cptJointName2, 
-        doubleN<3>  dAxis1, 
-        doubleN<3>  dAxis2, 
-        doubleN<3>  dBody2Joint,
-        doubleN<3>  dInb2Joint) {
+        double3     dAxis1, 
+        double3     dAxis2, 
+        double3     dBody2Joint,
+        double3     dInb2Joint) {
         this->m_nBodyNum++; // add the body number
         auto & Info = this->m_stBodysInfo[this->m_nBodyNum];
         Info.ifGeom = nIfGeom;
@@ -201,17 +228,17 @@ public:
         char *      cptBodyName, 
         char *      cptInbName,
         double      dMass, 
-        doubleN<3>  dIner, 
+        double3     dIner, 
         int         nIfGeom,
         double      dLinkLength,
         char *      cptJointName1, 
         char *      cptJointName2, 
         char *      cptJointName3, 
-        doubleN<3>  dAxis1, 
-        doubleN<3>  dAxis2, 
-        doubleN<3>  dAxis3, 
-        doubleN<3>  dBody2Joint,
-        doubleN<3>  dInb2Joint) {
+        double3     dAxis1, 
+        double3     dAxis2, 
+        double3     dAxis3, 
+        double3     dBody2Joint,
+        double3     dInb2Joint) {
         this->m_nBodyNum++; // add the body number
         auto & Info = this->m_stBodysInfo[this->m_nBodyNum];
         Info.ifGeom = nIfGeom;
@@ -256,14 +283,14 @@ public:
         char *      cptBodyName, 
         char *      cptInbName,
         double      dMass, 
-        doubleN<3>  dIner, 
+        double3     dIner, 
         int         nIfGeom,
         double      dForceSensorHeight,
         char *      cptForceSensorName,
         char *      cptForceName,
         char *      cptTorqueName,
-        doubleN<3>  dSize, 
-        doubleN<3>  dInb2Body) {
+        double3     dSize, 
+        double3     dInb2Body) {
         this->m_nBodyNum++; // add the body number
         this->m_nFSNum++; // add the force sensor number
         auto & Info = this->m_stBodysInfo[this->m_nBodyNum];
@@ -298,7 +325,7 @@ public:
     void fnvAddIMU(
         char *      cptIMUName, 
         char *      cptInbName,
-        doubleN<3>  dInb2IMU) {
+        double3     dInb2IMU) {
         this->m_nIMUNum++; // add the IMU number
         for(int i = 0; i < __MaxBodyNum; i++) {
             if(strcmp(cptInbName, this->m_stBodysInfo[i].bodyName) == 0) {
@@ -314,9 +341,30 @@ public:
         }
     }
 
+    void fnvBuildBlock(
+        double      dMass, 
+        double3     d3Geom, 
+        double3     d3Pos, 
+        double3     d3Euler) {
+        auto & Info = this->m_stBlocksInfo[this->m_nBlockNum];
+        Info.blockNo = this->m_nBlockNum;
+        this->m_nBlockNum++;
+        strcpy(Info.blockName, "block_");
+        strcat(Info.blockName, ("0" + Info.blockNo));
+        Info.Mass = dMass;
+        for(int i = 0; i < 3; i++) Info.geom[i] = d3Geom[i], Info.pos[i] = d3Pos[i], Info.rot[i] = d3Euler[i];
+        Info.Iner[0] = dMass * (d3Geom[1] * d3Geom[1] + d3Geom[2] * d3Geom[2]) / 12.0;
+        Info.Iner[1] = dMass * (d3Geom[2] * d3Geom[2] + d3Geom[0] * d3Geom[0]) / 12.0;
+        Info.Iner[2] = dMass * (d3Geom[0] * d3Geom[0] + d3Geom[1] * d3Geom[1]) / 12.0;
+    }
+
+    void fnvBuildPlane() {
+
+    }
+
     void fnvExContact(char * cptBody1, char * cptBody2) {
         strcpy_s(this->m_cptExContactList[this->m_nExContactNum][0], cptBody1);
-        strcpy_s(this->m_cptExContactList[this->m_nExContactNum][1], cptBody2);        
+        strcpy_s(this->m_cptExContactList[this->m_nExContactNum][1], cptBody2);
         this->m_nExContactNum++;
     }
 
@@ -338,12 +386,16 @@ public:
 private:
     char m_cptModelName[__MaxStrLen];
     double m_dTimeStep;
+    st_Friction m_stFriction;
     int m_nGravityFlag;
     FILE * m_file;
     st_JointBody m_stBodysInfo[__MaxBodyNum];
+    st_Block m_stBlocksInfo[__MaxBlockNum];
     char m_cptJointsList[__MaxJointNum][__MaxStrLen];
     char m_cptExContactList[100][2][__MaxStrLen];
     int m_nExContactNum;
+    int m_nBlockNum;
+    int m_nPlaneNum;
     void fnvOpenFile() {
         char wchFileName[__MaxStrLen];
         strcpy_s(wchFileName, m_cptModelName);
@@ -364,7 +416,7 @@ private:
         __Tab __End("default") __Etr
 
         __Tab fprintf(this->m_file, "<option timestep = \"%lf\" ", this->m_dTimeStep); fprintf(this->m_file, "apirate = \"144\" iterations = \"50\"/>"); __Etr
-        __Tab __Line("option impratio = \"0.1\"") 
+        __Tab __LineIn1("option impratio = \"%lf\"", this->m_stFriction.impratio) 
         __Tab __Line("option tolerance = \"1e-10\" solver = \"Newton\"")
         __Tab 
         if(this->m_nGravityFlag) {
@@ -406,7 +458,7 @@ private:
         __Tab __BodyTab(Info.rank) __LineIn4("inertial pos = \"0 0 0\" mass = \"%lf\" diaginertia = \"%lf %lf %lf\"", Info.Mass, Info.Iner[0], Info.Iner[1], Info.Iner[2]) // write dynamics
         if(Info.jointType == fs) { // if the body is foot
             if(Info.ifGeom) {
-                __Tab __BodyTab(Info.rank) __LineIn4("geom name = \"%s\" type = \"box\" size = \"%lf %lf %lf\" rgba = \"0.14 0.16 0.16 1\" material = \"robots\"", Info.bodyName, Info.b2j[0], Info.b2j[1], Info.b2j[2]) // write geom
+                __Tab __BodyTab(Info.rank) __LineIn7("geom name = \"%s\" type = \"box\" size = \"%lf %lf %lf\" rgba = \"0.14 0.16 0.16 1\" material = \"robots\" friction = \"%lf %lf %lf\"", Info.bodyName, Info.b2j[0], Info.b2j[1], Info.b2j[2], this->m_stFriction.friction[0], this->m_stFriction.friction[1], this->m_stFriction.friction[2]) // write geom
             }
             __Tab __BodyTab(Info.rank) __LineIn4("site name = \"%s\" pos = \"%lf %lf %lf\"", Info.jointName[0], -Info.i2b[0], -Info.i2b[1], Info.len)
         }
@@ -421,6 +473,21 @@ private:
         if(Info.hasIMU) { // if has IMU on this body
             __Tab __BodyTab(Info.rank) __LineIn4("site name = \"%s\" pos = \"%lf %lf %lf\"", Info.IMUName, Info.i2IMU[0], Info.i2IMU[1], Info.i2IMU[2])
         }
+    }
+
+    void fnvWriteBlocks(int nBlockNum) {
+        auto & Info = this->m_stBlocksInfo[nBlockNum];
+        __BodyTab(0) __StartBlock("body name = \"%s\" pos = \"%lf %lf %lf\" euler = \"%lf %lf %lf\"", Info.blockName, Info.pos[0], Info.pos[1], Info.pos[2], Info.rot[0], Info.rot[1], Info.rot[2])
+        if(Info.Mass > 1e-6) { // respondable
+            __Tab __BodyTab(0) __LineIn4("inertial pos = \"0 0 0\" mass = \"%lf\" diaginertia = \"%lf %lf %lf\"", Info.Mass, Info.Iner[0], Info.Iner[1], Info.Iner[2])
+            __Tab __BodyTab(0) __LineIn2("freejoint name = \"%s_%s\"", Info.blockName, "freejoint")
+            __Tab __BodyTab(0) __LineIn5("geom name = \"%s_%s\" type = \"box\" size = \"%lf %lf %lf\" rgba = \"0.5 0.2 0.2 1\"", Info.blockName, "geom", 0.5 * Info.geom[0], 0.5 * Info.geom[1], 0.5 * Info.geom[2])
+        }
+        else { // static
+            __Tab __BodyTab(0) __Line("inertial pos = \"0 0 0\" mass = \"100\" diaginertia = \"1 1 1\"")
+            __Tab __BodyTab(0) __LineIn5("geom name = \"%s_%s\" type = \"box\" size = \"%lf %lf %lf\" rgba = \"0.5 0.2 0.2 1\"", Info.blockName, "geom", Info.geom[0], Info.geom[1], Info.geom[2])
+        }
+        __BodyTab(0) __End("body")
     }
 
     void fnvWriteWorld() {
@@ -443,7 +510,10 @@ private:
             int rank = nRankDown - i;
             __BodyTab(rank) __End("body")
         }
-        
+        // write blocks
+        for(int i = 0; i < this->m_nBlockNum; i++) fnvWriteBlocks(i);
+        // write planes
+
         __Tab __End("worldbody") __Etr
     }
 
