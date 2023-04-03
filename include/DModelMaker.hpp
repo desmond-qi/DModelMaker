@@ -358,10 +358,6 @@ public:
         Info.Iner[2] = dMass * (d3Geom[0] * d3Geom[0] + d3Geom[1] * d3Geom[1]) / 12.0;
     }
 
-    void fnvBuildPlane() {
-
-    }
-
     void fnvExContact(char * cptBody1, char * cptBody2) {
         strcpy_s(this->m_cptExContactList[this->m_nExContactNum][0], cptBody1);
         strcpy_s(this->m_cptExContactList[this->m_nExContactNum][1], cptBody2);
@@ -478,14 +474,14 @@ private:
     void fnvWriteBlocks(int nBlockNum) {
         auto & Info = this->m_stBlocksInfo[nBlockNum];
         __BodyTab(0) __StartBlock("body name = \"%s\" pos = \"%lf %lf %lf\" euler = \"%lf %lf %lf\"", Info.blockName, Info.pos[0], Info.pos[1], Info.pos[2], Info.rot[0], Info.rot[1], Info.rot[2])
-        if(Info.Mass > 1e-6) { // respondable
+        if(Info.Mass > __Mic6) { // respondable
             __Tab __BodyTab(0) __LineIn4("inertial pos = \"0 0 0\" mass = \"%lf\" diaginertia = \"%lf %lf %lf\"", Info.Mass, Info.Iner[0], Info.Iner[1], Info.Iner[2])
             __Tab __BodyTab(0) __LineIn2("freejoint name = \"%s_%s\"", Info.blockName, "freejoint")
             __Tab __BodyTab(0) __LineIn5("geom name = \"%s_%s\" type = \"box\" size = \"%lf %lf %lf\" rgba = \"0.5 0.2 0.2 1\"", Info.blockName, "geom", 0.5 * Info.geom[0], 0.5 * Info.geom[1], 0.5 * Info.geom[2])
         }
         else { // static
             __Tab __BodyTab(0) __Line("inertial pos = \"0 0 0\" mass = \"100\" diaginertia = \"1 1 1\"")
-            __Tab __BodyTab(0) __LineIn5("geom name = \"%s_%s\" type = \"box\" size = \"%lf %lf %lf\" rgba = \"0.5 0.2 0.2 1\"", Info.blockName, "geom", Info.geom[0], Info.geom[1], Info.geom[2])
+            __Tab __BodyTab(0) __LineIn5("geom name = \"%s_%s\" type = \"box\" size = \"%lf %lf %lf\" rgba = \"0.5 0.2 0.2 1\"", Info.blockName, "geom", 0.5 * Info.geom[0], 0.5 * Info.geom[1], 0.5 * Info.geom[2])
         }
         __BodyTab(0) __End("body")
     }
