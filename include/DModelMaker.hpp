@@ -99,7 +99,6 @@ public:
         this->m_nPlaneNum = 0;        
         this->fnvSetFriction(10.0, { 3.8, 0.5, 0.0001 }); // set the default values of the friction setting
         this->fnvOpenFile();
-        this->fnvWriteDefault();
     }
     
     ~c_MMaker() {
@@ -366,6 +365,7 @@ public:
 
     void fnvWriteXML() {
         this->m_nBodyNum++; // add the counting number of floating base body
+        this->fnvWriteDefault();
         this->fnvWriteAsset();
         this->fnvWriteWorld();
         this->fnvWriteSettings();
