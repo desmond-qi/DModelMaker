@@ -86,10 +86,12 @@ public:
     int m_nBodyNum;
     int m_nIMUNum;
     int m_nFSNum;
-    c_MMaker(const char * cptModelName, double dTimeStep, int nIfGravity) {
+    int m_nMotorMod; // 0: position; 1:torque
+    c_MMaker(const char * cptModelName, double dTimeStep, int nMotorMod, int nIfGravity) {
         strcpy_s(this->m_cptModelName, cptModelName);
         this->m_dTimeStep = dTimeStep;
         this->m_nGravityFlag = nIfGravity;
+        this->m_nMotorMod = nMotorMod;
         this->m_nBodyNum = 0;
         this->m_nJointNum = 0;
         this->m_nIMUNum = 0;
@@ -365,7 +367,9 @@ public:
 
     void fnvWriteXML() {
         this->m_nBodyNum++; // add the counting number of floating base body
-        this->fnvWriteDefault();
+        this->fnvWriteHeader();
+        if(this->m_nMotorMod == 0) this->fnvWriteDefault();
+        this->fnvWriteOptions();
         this->fnvWriteAsset();
         this->fnvWriteWorld();
         this->fnvWriteSettings();
@@ -399,18 +403,22 @@ private:
         this->m_file = fopen(wchFileName, "w"); 
     }
 
-    void fnvWriteDefault() {
+    void fnvWriteHeader() {
         __StartMujoco("mujoco model = \"%s\"", this->m_cptModelName) __Etr 
 
         __Tab __Line("compiler inertiafromgeom = \"false\" angle = \"radian\""); __Etr 
+    }
 
+    void fnvWriteDefault() {
         __Tab __Start("default") 
         __Tab __Tab __Line("joint limited = \"true\" stiffness = \"1500\" damping = \"10\" armature = \"2.5\"");
         __Tab __Tab __Line("geom condim = \"4\" material = \"matgeom\"");
         __Tab __Tab __Line("motor ctrlrange = \"-314.0 314.0\" ctrllimited = \"true\"");
         __Tab __Tab __Line("position kp = \"15\"");
         __Tab __End("default") __Etr
+    }
 
+    void fnvWriteOptions() {
         __Tab fprintf(this->m_file, "<option timestep = \"%lf\" ", this->m_dTimeStep); fprintf(this->m_file, "apirate = \"144\" iterations = \"50\"/>"); __Etr
         __Tab __LineIn1("option impratio = \"%lf\"", this->m_stFriction.impratio) 
         __Tab __Line("option tolerance = \"1e-10\" solver = \"Newton\"")
@@ -522,7 +530,13 @@ private:
     }
 
     void fnvWriteActuator(int nJointNum) {
-        __Tab __Tab __LineIn2("position name = \"%s\" gear = \"100.00000\" joint = \"%s\"", this->m_cptJointsList[nJointNum], this->m_cptJointsList[nJointNum])
+        if(this->m_nMotorMod == 0) {
+            __Tab __Tab  __LineIn2("position name = \"%s\" gear = \"100.00000\" joint = \"%s\"", this->m_cptJointsList[nJointNum], this->m_cptJointsList[nJointNum])
+        }
+        else if(this->m_nMotorMod == 1) {
+            __Tab __Tab  __LineIn2("motor name = \"%s\" joint = \"%s\"", this->m_cptJointsList[nJointNum], this->m_cptJointsList[nJointNum])
+        }
+        else _STD cout << "Wrong motor mod!!" << _STD endl;
     }
 
     void fnvWriteContact(int nExContactNum) {
