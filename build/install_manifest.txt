@@ -1,2 +1,0 @@
-D:/_pkg/DPackages/DMujoMk/include/DModelMaker.hpp
-D:/_pkg/DPackages/DMujoMk/share/DMujoMk/DMujoMkConfig.cmake
