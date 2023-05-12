@@ -383,13 +383,15 @@ public:
         _STD cout << "Number of joints is: " << this->m_nJointNum << _STD endl;
     }
 
+protected:
+    st_JointBody m_stBodysInfo[__MaxBodyNum];
+    
 private:
     char m_cptModelName[__MaxStrLen];
     double m_dTimeStep;
     st_Friction m_stFriction;
     int m_nGravityFlag;
     FILE * m_file;
-    st_JointBody m_stBodysInfo[__MaxBodyNum];
     st_Block m_stBlocksInfo[__MaxBlockNum];
     char m_cptJointsList[__MaxJointNum][__MaxStrLen];
     char m_cptExContactList[100][2][__MaxStrLen];
