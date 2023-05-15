@@ -383,15 +383,13 @@ public:
         _STD cout << "Number of joints is: " << this->m_nJointNum << _STD endl;
     }
 
-protected:
-    st_JointBody m_stBodysInfo[__MaxBodyNum];
-    
 private:
     char m_cptModelName[__MaxStrLen];
     double m_dTimeStep;
     st_Friction m_stFriction;
     int m_nGravityFlag;
     FILE * m_file;
+    st_JointBody m_stBodysInfo[__MaxBodyNum];
     st_Block m_stBlocksInfo[__MaxBlockNum];
     char m_cptJointsList[__MaxJointNum][__MaxStrLen];
     char m_cptExContactList[100][2][__MaxStrLen];
@@ -426,7 +424,7 @@ private:
         __Tab __Line("option tolerance = \"1e-10\" solver = \"Newton\"")
         __Tab 
         if(this->m_nGravityFlag) {
-            __Line("option jacobian = \"dense\" cone = \"pyramidal\" gravity = \"0.0 0.0 -9.8\"") __Etr
+            __Line("option jacobian = \"dense\" cone = \"pyramidal\" gravity = \"0.0 0.0 -9.8\"") __Etr //QHX
         }
         else {
             __Line("option jacobian = \"dense\" cone = \"pyramidal\" gravity = \"0.0 0.0 0.0\"") __Etr
@@ -501,13 +499,14 @@ private:
         __Tab __Start("worldbody")
         __Tab __Tab __Line("geom name = \"floor\" pos = \"0 0 0\" size = \"0 0 .25\" type = \"plane\" material = \"matplane\" condim = \"3\" friction = \"1.3 0.005 0.0001\"")
         __Tab __Tab __Line("light directional = \"true\" diffuse = \".5 .5 .5\" specular = \"0.3 0.3 0.3\" pos = \"0 0 5\" dir = \"-0.25 0 -1\" castshadow = \"false\"")
-        __Tab __Tab __Line("light mode = \"targetbodycom\" target = \"midbody\" directional = \"true\" diffuse = \".7 .7 .7\" specular = \"0.3 0.3 0.3\" pos = \"0 0 4.0\" dir = \"0 0 -1\" castshadow = \"false\"") __Etr
+        __Tab __Tab __Line("light mode = \"targetbodycom\" target = \"uppbody\" directional = \"true\" diffuse = \".7 .7 .7\" specular = \"0.3 0.3 0.3\" pos = \"0 0 4.0\" dir = \"0 0 -1\" castshadow = \"false\"") __Etr
         { // write base body
         auto & Info = this->m_stBodysInfo[0]; 
         __BodyTab(0) __StartBody("body name = \"%s\" pos = \"%lf %lf %lf\"", Info.bodyName, Info.i2b[0], Info.i2b[1], Info.i2b[2])
         __Tab __BodyTab(0) __LineIn1("freejoint name = \"%s\"", Info.jointName)
         __Tab __BodyTab(0) __LineIn4("inertial pos = \"0 0 0\" mass = \"%lf\" diaginertia = \"%lf %lf %lf\"", Info.Mass, Info.Iner[0], Info.Iner[1], Info.Iner[2])
         __Tab __BodyTab(0) __LineIn3("geom name = \"%s\" type = \"capsule\" fromto = \"0 %lf 0 0 %lf 0\" size = \"0.04\" rgba = \"0.14 0.16 0.16 1\" material = \"robots\"", Info.geomName, -0.5 * Info.len, 0.5 * Info.len)
+        __Tab __BodyTab(0) __LineIn1("site name = \"%s\" size = \"0.01\" pos = \"0 0 0\"", "imu") //QHX
         }
         // write sub bodies
         for(int i = 1; i < this->m_nBodyNum; i++) fnvWriteBody(i);
@@ -549,6 +548,8 @@ private:
         // write sensors
         __Tab __Start("sensor")
         for(int i = 0; i < this->m_nBodyNum; i++) fnvWriteSensor(i);
+        __Tab __Tab __LineIn2("gyro name = \"%s\" site = \"%s\"", "root_gyro", "imu") //QHX
+        __Tab __Tab __LineIn2("accelerometer name = \"%s\" site = \"%s\"", "root_accel", "imu")
         __Tab __End("sensor") __Etr
         // write actuators   
         __Tab __Start("actuator")
