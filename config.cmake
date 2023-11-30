@@ -5,6 +5,7 @@ set(${PKG_NAME}_LIB_ON      0)
 set(${PKG_NAME}_SRC_ON      0)
 # ---------------------------------
 set(PKG_DIR ${CMAKE_SOURCE_DIR})
+set(CMAKE_INSTALL_PREFIX "D:/Work/Packages/DPackages")
 message("-- Package name is: ${PKG_NAME}")
 
 set(${PKG_NAME}_include_dirs    ${CMAKE_INSTALL_PREFIX}/${PKG_NAME}/include)

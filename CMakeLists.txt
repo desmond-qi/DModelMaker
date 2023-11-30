@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(ModelMaker)
 
+set(CMAKE_PREFIX_PATH "D:/Work/Packages/DPackages")
 find_package(DBase)
 
 include_directories(
