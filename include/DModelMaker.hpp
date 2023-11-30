@@ -87,6 +87,8 @@ public:
     int m_nIMUNum;
     int m_nFSNum;
     int m_nMotorMod; // 0: position; 1:torque
+    st_JointBody m_stBodysInfo[__MaxBodyNum];
+
     c_MMaker(const char * cptModelName, double dTimeStep, int nMotorMod, int nIfGravity) {
         strcpy_s(this->m_cptModelName, cptModelName);
         this->m_dTimeStep = dTimeStep;
@@ -389,7 +391,6 @@ private:
     st_Friction m_stFriction;
     int m_nGravityFlag;
     FILE * m_file;
-    st_JointBody m_stBodysInfo[__MaxBodyNum];
     st_Block m_stBlocksInfo[__MaxBlockNum];
     char m_cptJointsList[__MaxJointNum][__MaxStrLen];
     char m_cptExContactList[100][2][__MaxStrLen];
