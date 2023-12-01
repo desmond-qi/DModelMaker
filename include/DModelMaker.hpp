@@ -68,6 +68,8 @@ struct st_JointBody {
     int ifGeom; // if use geom to contact
     double i2IMU[3]; // inbord to IMU
     char IMUName[__MaxStrLen];
+    bool IfNoise = FALSE;
+    double Noise;
 };
 
 struct st_Block {
@@ -145,7 +147,9 @@ public:
         char *      cptJointName, 
         double3     dAxis,  
         double3     dBody2Joint,
-        double3     dInb2Joint) {
+        double3     dInb2Joint,
+        bool        bIfNoise,
+        double      dJointNoise) {
         this->m_nBodyNum++; // add the body number
         auto & Info = this->m_stBodysInfo[this->m_nBodyNum];
         Info.ifGeom = nIfGeom;
@@ -176,6 +180,8 @@ public:
         }
         Info.BodytNo = this->m_nBodyNum; // body number
         Info.jointType = pin; // joint type
+        Info.IfNoise = bIfNoise;
+        Info.Noise = dJointNoise;
     }
 
     void fnvAddGimbal(
@@ -328,8 +334,12 @@ public:
     void fnvAddIMU(
         char *      cptIMUName, 
         char *      cptInbName,
-        double3     dInb2IMU) {
+        double3     dInb2IMU,
+        bool        bIfNoise,
+        double      dNoise) {
         this->m_nIMUNum++; // add the IMU number
+        m_bIfImuNoise = bIfNoise;
+        m_dImuNoise = dNoise;
         for(int i = 0; i < __MaxBodyNum; i++) {
             if(strcmp(cptInbName, this->m_stBodysInfo[i].bodyName) == 0) {
                 this->m_stBodysInfo[i].hasIMU = 1;
@@ -397,6 +407,8 @@ private:
     int m_nExContactNum;
     int m_nBlockNum;
     int m_nPlaneNum;
+    bool m_bIfImuNoise;
+    double m_dImuNoise;
     void fnvOpenFile() {
         char wchFileName[__MaxStrLen];
         strcpy_s(wchFileName, m_cptModelName);
@@ -440,6 +452,11 @@ private:
         __Tab __Tab __Line("global offwidth = \"1600\" offheight = \"1600\"")
         __Tab __Tab __Line("scale forcewidth = \"0.05\" contactwidth = \"0.1\" com = \"0.2\"")
         __Tab __End("visual") __Etr
+
+        //QHX
+        __Tab __Start("option")
+        __Tab __Tab __Line("flag sensornoise = \"enable\"")
+        __Tab __End("option") __Etr
     }
     
     void fnvWriteAsset() {
@@ -542,6 +559,11 @@ private:
         else _STD cout << "Wrong motor mod!!" << _STD endl;
     }
 
+    void fnvWriteNoise(int nBodyNum) { //QHX
+        auto & Info = this->m_stBodysInfo[nBodyNum];
+        if(Info.IfNoise == TRUE) __Tab __Tab __LineIn3("jointpos name = \"%s\" noise = \"%f\" joint = \"%s\"", Info.jointName, Info.Noise, Info.jointName);
+    }
+
     void fnvWriteContact(int nExContactNum) {
         __Tab __Tab __LineIn2("exclude body1 = \"%s\" body2 = \"%s\"", this->m_cptExContactList[nExContactNum][0], this->m_cptExContactList[nExContactNum][1])
     }
@@ -550,8 +572,9 @@ private:
         // write sensors
         __Tab __Start("sensor")
         for(int i = 0; i < this->m_nBodyNum; i++) fnvWriteSensor(i);
-        __Tab __Tab __LineIn2("gyro name = \"%s\" site = \"%s\"", "root_gyro", "imu") //QHX
+        __Tab __Tab __LineIn2("gyro name = \"%s\" site = \"%s\" noise = \"1\"", "root_gyro", "imu") //QHX
         __Tab __Tab __LineIn2("accelerometer name = \"%s\" site = \"%s\"", "root_accel", "imu")
+        if(m_bIfImuNoise == TRUE) __Tab __Tab __LineIn1("framequat name = \"imu_rot\" objtype = \"site\" objname = \"imu\" noise = \"%f\"", m_dImuNoise)
         __Tab __End("sensor") __Etr
         // write actuators   
         __Tab __Start("actuator")
