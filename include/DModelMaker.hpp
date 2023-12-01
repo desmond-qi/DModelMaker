@@ -434,10 +434,11 @@ private:
         __Tab __Line("size nconmax = \"50\" njmax = \"200\" nstack = \"10000\"") __Etr
 
         __Tab __Start("visual")
-        __Tab __Tab __Line("map force = \"0.5\" zfar = \"30\"")
+        __Tab __Tab __Line("map force = \"0.1\" zfar = \"30\"")
         __Tab __Tab __Line("rgba haze = \"0.1 0.1 0.1 0\"")
         __Tab __Tab __Line("quality shadowsize = \"4096\"")
         __Tab __Tab __Line("global offwidth = \"1600\" offheight = \"1600\"")
+        __Tab __Tab __Line("scale forcewidth = \"0.05\" contactwidth = \"0.1\" com = \"0.2\"")
         __Tab __End("visual") __Etr
     }
     
