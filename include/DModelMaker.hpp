@@ -561,7 +561,9 @@ private:
 
     void fnvWriteNoise(int nBodyNum) { //QHX
         auto & Info = this->m_stBodysInfo[nBodyNum];
-        if(Info.IfNoise == TRUE) __Tab __Tab __LineIn3("jointpos name = \"%s\" noise = \"%f\" joint = \"%s\"", Info.jointName, Info.Noise, Info.jointName);
+        if(Info.IfNoise == TRUE) {
+            __Tab __Tab __LineIn3("jointpos name = \"%s\" noise = \"%f\" joint = \"%s\"", Info.jointName, Info.Noise, Info.jointName);
+        }
     }
 
     void fnvWriteContact(int nExContactNum) {
@@ -575,6 +577,7 @@ private:
         __Tab __Tab __LineIn2("gyro name = \"%s\" site = \"%s\" noise = \"1\"", "root_gyro", "imu") //QHX
         __Tab __Tab __LineIn2("accelerometer name = \"%s\" site = \"%s\"", "root_accel", "imu")
         if(m_bIfImuNoise == TRUE) __Tab __Tab __LineIn1("framequat name = \"imu_rot\" objtype = \"site\" objname = \"imu\" noise = \"%f\"", m_dImuNoise)
+        for(int i = 0; i < this->m_nBodyNum; i++) fnvWriteNoise(i);
         __Tab __End("sensor") __Etr
         // write actuators   
         __Tab __Start("actuator")
